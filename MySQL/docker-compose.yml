@@ -1,0 +1,83 @@
+version: "2.15.1"
+
+services:
+  producer:
+    build: 
+      context: ./producer
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+      - "5002:5002"
+      - "5003:5003"
+    depends_on:
+      - rabbitmq
+    networks:
+      - microservices_network
+
+  insert_service: 
+    build: 
+      context: ./consumer_two
+      dockerfile: Dockerfile
+    depends_on:
+      - rabbitmq
+      - mysql
+    networks:
+      - microservices_network
+    
+  delete_service:
+    build: 
+      context: ./consumer_three
+      dockerfile: Dockerfile
+    depends_on:
+      - rabbitmq
+      - mysql
+    networks:
+      - microservices_network
+    
+  retrieve_service:
+    build: 
+      context: ./consumer_four
+      dockerfile: Dockerfile
+    depends_on:
+      - rabbitmq
+      - mysql
+    networks:
+      - microservices_network
+
+  health_check_service:
+    build: ./consumer_one
+    depends_on:
+      - insert_service
+      - delete_service
+      - retrieve_service
+      - rabbitmq
+    networks:
+      - microservices_network
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - rabbitmq_network
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: student_database
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./mysql:/var/lib/mysql
+    networks:
+      - microservices_network
+
+networks:
+  microservices_network:
+    driver: bridge
+  rabbitmq_network:
+    driver: bridge
