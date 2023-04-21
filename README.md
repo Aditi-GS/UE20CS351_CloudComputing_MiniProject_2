@@ -1,0 +1,2 @@
+# UE20CS351_CloudComputing_MiniProject_2
+Microservice communication with RabbitMQ
