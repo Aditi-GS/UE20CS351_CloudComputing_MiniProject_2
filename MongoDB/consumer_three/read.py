@@ -8,7 +8,7 @@ client = MongoClient('mongodb')
 db = client["mydatabase"]
 collection = db["students"]
 
-# RabbitMQ connection
+# RabbitMQ connections
 connection = pika.BlockingConnection(pika.ConnectionParameters('rabbitmq'))
 channel = connection.channel()
 channel.queue_declare(queue='read_database', durable=True)
