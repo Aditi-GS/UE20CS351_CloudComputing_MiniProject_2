@@ -13,7 +13,7 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 
 # copy the file
-COPY . /healthcheck
+COPY . .
 ENTRYPOINT [ "python3" ]
 # start command
 CMD [ "producer.py" ]
