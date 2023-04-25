@@ -13,7 +13,7 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 
 # copy the file
-COPY . /producer
+COPY . .
 
 ENTRYPOINT [ "python3" ]
 
