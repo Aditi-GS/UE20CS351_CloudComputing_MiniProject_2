@@ -20,11 +20,15 @@ def callback(ch, method, properties, body):
     records1 = []
     for doc in collection.find():
         records1.append(doc)
+    for x in records1:
+        print(x)
         
    # Retrieve all the records of a specific SRN from the database
     records2 = []
     for doc in collection.find({'SRN':'78'}):
         records2.append(doc)
+    for x in records2:
+        print(x)
 
     
     # Send records back as response
