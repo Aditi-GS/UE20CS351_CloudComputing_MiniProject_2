@@ -18,12 +18,23 @@ def delete_record(srn):
     result = collection.delete_one(query)
     return result.deleted_count
 
+#Function to delete all the records with the same SRN
+def delete_record_many(srn):
+    client = MongoClient('mongodb')
+    db = client['mydatabase']
+    collection = db['students']
+    query = {'srn': srn}
+    result = collection.delete_one(query)
+    return result.deleted_count
 
 # Function to process incoming messages from RabbitMQ
 def callback(ch, method, properties, body):
     srn = body.decode('utf-8')
-    result = delete_record(srn)
-    print(f"Deleted {result} record(s) with SRN '{srn}'")
+    result1 = delete_record(srn)
+    print(f"Deleted {result1} record(s) with SRN '{srn}'")
+    print("Deleting all users with the same srn")
+    result2 = delete_record_many(srn)
+    print(f"Deleted {result2} record(s) with SRN '{srn}'")
 
 
 # Start consuming messages from the queue
