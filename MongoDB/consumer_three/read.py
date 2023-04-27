@@ -17,9 +17,15 @@ def callback(ch, method, properties, body):
     print("Received request to read database...")
     
     # Retrieve all records from database
-    records = []
+    records1 = []
     for doc in collection.find():
-        records.append(doc)
+        records1.append(doc)
+        
+   # Retrieve all the records of a specific SRN from the database
+    records2 = []
+    for doc in collection.find({'SRN':'78'}):
+        records2.append(doc)
+
     
     # Send records back as response
     response = json.dumps(records)
